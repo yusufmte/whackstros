@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/yoofstand_0.png-01d2d3f28498a857053a44793dafb506.stex"
+path="res://.import/run_down1.png-32828258674e3cf20cacf060c752d7d6.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/player/standing/yoofstand_0.png"
-dest_files=[ "res://.import/yoofstand_0.png-01d2d3f28498a857053a44793dafb506.stex" ]
+source_file="res://art/player/running/run_down1.png"
+dest_files=[ "res://.import/run_down1.png-32828258674e3cf20cacf060c752d7d6.stex" ]
 
 [params]
 
