@@ -8,7 +8,7 @@ var vector_to_direction = {Vector2(0,0):NONE, Vector2(0,-1):UP, Vector2(0,1):DOW
 var direction_to_string = {NONE:"none", UP:"up", DOWN:"down", LEFT:"left", RIGHT:"right"}
 var is_moving = false
 
-var walkable_tiles = [0]
+
 var velocity = Vector2(0,0) # used for sliding
 export var speed = 320
 var original_position = position
@@ -44,7 +44,7 @@ func attempt_movement():
 	var direction = check_for_movement()
 	if direction != NONE:
 		var new_position = new_tile_position(direction)
-		if get_parent().get_cellv(new_position) in walkable_tiles:
+		if get_parent().get_cellv(new_position) in get_parent().walkable_tiles:
 			enact_movement(direction)
 
 func enact_movement(direction):
@@ -61,13 +61,19 @@ func complete_movement(delta):
 		else:
 			if position <= original_position + get_parent().map_to_world(velocity):
 				stop_movement()
+
+func check_for_encounter():
+	var current_tileid = get_parent().get_cellv(get_parent().world_to_map(position))
+	if current_tileid in get_parent().tileid_to_encounterChance.keys():
+		get_parent().roll_for_encounter(current_tileid)
 			
 func stop_movement(): # at the end of movement, even if key is still held down
+	if check_keypress_direction() == NONE or not (get_parent().get_cellv(new_tile_position(vector_to_direction[velocity])) in get_parent().walkable_tiles):
+		end_movement()
 	position = get_parent().map_to_world(get_parent().world_to_map(position)) + get_parent().cell_size/2 # this will recenter the player after the movement
 	original_position = position
-	if check_keypress_direction() == NONE or not (get_parent().get_cellv(new_tile_position(vector_to_direction[velocity])) in walkable_tiles):
-		end_movement()
 	velocity = direction_to_vector[NONE] # stops velocity
+	check_for_encounter()
 
 func end_movement(): # if no keys held down
 	$AnimatedSprite.set_animation("stand_"+direction_to_string[vector_to_direction[velocity]]) # sets to the standing animation at the end of movement
