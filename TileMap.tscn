@@ -123,4 +123,5 @@ position = Vector2( -1, -33 )
 scale = Vector2( 1.26562, 1.20312 )
 frames = SubResource( 2 )
 animation = "run_right"
+frame = 1
 playing = true
